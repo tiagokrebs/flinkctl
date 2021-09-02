@@ -6,7 +6,6 @@ go get -u github.com/spf13/cobra
 ```
 
 Next, start your application structure with cobra init
-
 ```
 # install
 export GOMODULE111=on
@@ -24,6 +23,10 @@ cobra add serve
 cobra add config
 cobra add create -p 'configCmd'
 
+```
+
+Then, do a simple test
+```
 go mod init github.com/tiagokrebs/flinkctl
 go mod tidy
 go mod vendor
