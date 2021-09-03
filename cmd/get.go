@@ -16,14 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/spf13/cobra"
-	"github.com/tiagokrebs/flinkctl/internal/platform/json"
 )
 
 // getCmd represents the get command
@@ -36,33 +29,11 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		response, err := http.Get("http://xxx:8081/v1/jobmanager/config")
-
-		if err != nil {
-			fmt.Print(err.Error())
-			os.Exit(1)
-		}
-
-		responseData, err := ioutil.ReadAll(response.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		data := []byte(responseData)
-
-		prettyJSON, err := json.FormatJSON(data)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println(string(prettyJSON))
-
-	},
+	// witout a root function (Run:) means that a subcommand is required
 }
 
 func init() {
-	configCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(getCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -74,12 +45,3 @@ func init() {
 	// is called directly, e.g.:
 	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-// func formatJSON(data []byte) ([]byte, error) {
-// 	var out bytes.Buffer
-// 	err := json.Indent(&out, data, "", "    ")
-// 	if err == nil {
-// 		return out.Bytes(), err
-// 	}
-// 	return data, nil
-// }

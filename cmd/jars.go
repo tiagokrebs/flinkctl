@@ -26,9 +26,9 @@ import (
 	"github.com/tiagokrebs/flinkctl/internal/platform/json"
 )
 
-// configCmd represents the config command
-var configCmd = &cobra.Command{
-	Use:   "config",
+// jarsCmd represents the jars command
+var jarsCmd = &cobra.Command{
+	Use:   "jars",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -37,7 +37,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		response, err := http.Get("http://flc-bhs-ovh001p.infra.azion.net:8081/v1/jobmanager/config")
+		response, err := http.Get("http://flc-bhs-ovh001p.infra.azion.net:8081/v1/jars")
 
 		if err != nil {
 			fmt.Print(err.Error())
@@ -61,15 +61,15 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	getCmd.AddCommand(configCmd)
+	getCmd.AddCommand(jarsCmd)
 
-	// Here you will define your flags and configuration settings.
+	// Here you will define your flags and jarsuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// configCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// jarsCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// configCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// jarsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
