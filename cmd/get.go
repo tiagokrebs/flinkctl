@@ -17,13 +17,18 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/tiagokrebs/flinkctl/internal/platform/json"
 )
 
-// createCmd represents the create command
-var createCmd = &cobra.Command{
-	Use:   "create",
+// getCmd represents the get command
+var getCmd = &cobra.Command{
+	Use:   "get",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -32,20 +37,49 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
+		response, err := http.Get("http://xxx:8081/v1/jobmanager/config")
+
+		if err != nil {
+			fmt.Print(err.Error())
+			os.Exit(1)
+		}
+
+		responseData, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		data := []byte(responseData)
+
+		prettyJSON, err := json.FormatJSON(data)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(string(prettyJSON))
+
 	},
 }
 
 func init() {
-	configCmd.AddCommand(createCmd)
+	configCmd.AddCommand(getCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// createCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
+
+// func formatJSON(data []byte) ([]byte, error) {
+// 	var out bytes.Buffer
+// 	err := json.Indent(&out, data, "", "    ")
+// 	if err == nil {
+// 		return out.Bytes(), err
+// 	}
+// 	return data, nil
+// }
