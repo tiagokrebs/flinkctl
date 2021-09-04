@@ -1,5 +1,8 @@
 # Flinkctl
 
+## Design Guideline
+[Package Oriented Design - Ardan Labs](https://www.ardanlabs.com/blog/2017/02/package-oriented-design.html)
+
 ## Get started with spf13/cobra
 ```
 go get -u github.com/spf13/cobra
